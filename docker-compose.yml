@@ -14,6 +14,12 @@ services:
       - appnet
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 20s # Dale tiempo a MySQL para inicializarse
 
 #  backend:
 #    build: ./backend
@@ -35,14 +41,15 @@ services:
       context: ./rorbackend
       dockerfile: Dockerfile
     container_name: adonplay-backend
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 9000 -b '0.0.0.0'"
+    #command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 9000 -b '0.0.0.0'"
     volumes:
       - ./rorbackend:/app # Mount the current project directory into the /app container
       - bundle_cache:/usr/local/bundle # Volume to cache gems
     ports:
       - "9000:9000" # Map container port 3000 to local machine port 3000
     depends_on:
-      - mysql # Ensure the database starts before the app
+      mysql:
+        condition: service_healthy
     environment:
       RAILS_ENV: development # Rails environment
       DATABASE_URL: mysql2://adonplay:secret@mysql:3306/adonplay_api_db # Database connection URL
