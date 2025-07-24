@@ -32,12 +32,12 @@ services:
 
   backend:
     build:
-      context: ./ror_backend
+      context: ./rorbackend
       dockerfile: Dockerfile
     container_name: adonplay-backend
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 9000 -b '0.0.0.0'"
     volumes:
-      - ./ror_backend:/app # Mount the current project directory into the /app container
+      - ./rorbackend:/app # Mount the current project directory into the /app container
       - bundle_cache:/usr/local/bundle # Volume to cache gems
     ports:
       - "9000:9000" # Map container port 3000 to local machine port 3000
