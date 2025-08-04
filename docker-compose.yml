@@ -21,21 +21,6 @@ services:
       retries: 5
       start_period: 20s # Dale tiempo a MySQL para inicializarse
 
-#  backend:
-#    build: ./backend
-#    container_name: adonplay-backend
-#    restart: unless-stopped
-#    expose:
-#      - 9000
-#    networks:
-#      - appnet
-#    environment:
-#      - CHOKIDAR_USEPOLLING=true
-#    volumes:
-#      - ./backend:/var/www
-#    depends_on:
-#      - mysql
-
   backend:
     build:
       context: ./rorbackend
@@ -97,18 +82,6 @@ services:
     depends_on:
       - backend
 
-  #  centrifugo:
-  #    image: centrifugo/centrifugo:v5
-  #    container_name: adonplay-centrifugo
-  #    restart: unless-stopped
-  #    ports:
-  #      - "8000:8000"
-  #    networks:
-  #      - appnet
-  #    volumes:
-  #      - ./centrifugo:/centrifugo
-  #    command: centrifugo --config=/centrifugo/config.json --admin
-
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: adonplay-phpmyadmin
@@ -135,7 +108,6 @@ services:
       - backend
       - frontend
       - player
-#      - centrifugo
     networks:
       - appnet
 
