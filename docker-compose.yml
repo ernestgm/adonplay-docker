@@ -53,6 +53,11 @@ services:
     environment:
       RAILS_ENV: development # Rails environment
       DATABASE_URL: mysql2://adonplay:secret@mysql:3306/adonplay_api_db # Database connection URL
+      SFTP_HOST: ftp.geniusdevelops.com
+      SFTP_USERNAME: u645788548.adonplayftp
+      SFTP_PASSWORD: FAsA5@pqkB4S68S
+      SFTP_PORT: 21
+      SFTP_SSL: true
     networks:
       - appnet
 
@@ -92,17 +97,17 @@ services:
     depends_on:
       - backend
 
-  centrifugo:
-    image: centrifugo/centrifugo:v5
-    container_name: adonplay-centrifugo
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    networks:
-      - appnet
-    volumes:
-      - ./centrifugo:/centrifugo
-    command: centrifugo --config=/centrifugo/config.json --admin
+  #  centrifugo:
+  #    image: centrifugo/centrifugo:v5
+  #    container_name: adonplay-centrifugo
+  #    restart: unless-stopped
+  #    ports:
+  #      - "8000:8000"
+  #    networks:
+  #      - appnet
+  #    volumes:
+  #      - ./centrifugo:/centrifugo
+  #    command: centrifugo --config=/centrifugo/config.json --admin
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -129,7 +134,7 @@ services:
     depends_on:
       - backend
       - frontend
-#      - player
+      - player
 #      - centrifugo
     networks:
       - appnet
