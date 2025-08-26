@@ -63,6 +63,7 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
+      - redis
 
   player:
     container_name: adonplay-player
@@ -81,6 +82,7 @@ services:
     restart: unless-stopped
     depends_on:
       - backend
+      - redis
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -108,6 +110,15 @@ services:
       - backend
       - frontend
       - player
+      - redis
+    networks:
+      - appnet
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"
     networks:
       - appnet
 
