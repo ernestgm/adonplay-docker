@@ -3,6 +3,9 @@ services:
     image: mysql:8
     container_name: adonplay-mysql
     restart: unless-stopped
+    # >>> SOLUCIÓN: Agregando la directiva privileged <<<
+    privileged: true
+    # >>> FIN SOLUCIÓN <<<
     environment:
       MYSQL_DATABASE: adonplay_api_db
       MYSQL_USER: adonplay
