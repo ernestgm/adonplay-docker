@@ -1,3 +1,3 @@
 PMA_HOST: mysql
-PMA_USER: root
+PMA_USER: root #Quitar para no usar root
 PMA_PASSWORD: rootsecret
