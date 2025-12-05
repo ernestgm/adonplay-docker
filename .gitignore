@@ -3,6 +3,7 @@
 /player
 /rorbackend
 /.idea
+/nginx/default.conf
 /config/.backend_env
 /config/.frontend_env
 /config/.mysql_env
