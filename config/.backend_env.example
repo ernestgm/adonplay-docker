@@ -1,0 +1,7 @@
+RAILS_ENV=development # Rails environment
+DATABASE_URL=mysql2://adonplay:secret@mysql:3306/adonplay_api_db # Database connection URL
+SFTP_HOST=ftp.geniusdevelops.com
+SFTP_USERNAME=u645788548.adonplayftp
+SFTP_PASSWORD=FAsA5@pqkB4S68S
+SFTP_PORT=21
+SFTP_SSL=true

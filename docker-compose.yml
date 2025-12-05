@@ -6,11 +6,8 @@ services:
     # >>> SOLUCIÓN: Agregando la directiva privileged <<<
     privileged: true
     # >>> FIN SOLUCIÓN <<<
-    environment:
-      MYSQL_DATABASE: adonplay_api_db
-      MYSQL_USER: adonplay
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: rootsecret
+    env_file:
+      - ./config/.mysql_env
     ports:
       - "3306:3306"
     networks:
@@ -38,14 +35,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    environment:
-      RAILS_ENV: development # Rails environment
-      DATABASE_URL: mysql2://adonplay:secret@mysql:3306/adonplay_api_db # Database connection URL
-      SFTP_HOST: ftp.geniusdevelops.com
-      SFTP_USERNAME: u645788548.adonplayftp
-      SFTP_PASSWORD: FAsA5@pqkB4S68S
-      SFTP_PORT: 21
-      SFTP_SSL: true
+    env_file:
+      - ./config/.backend_env
     networks:
       - appnet
 
@@ -56,9 +47,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
+    env_file:
+      - ./config/.frontend_env
     networks:
       - appnet
     volumes:
@@ -75,9 +65,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
+    env_file:
+      - ./config/.player_env
     networks:
       - appnet
     volumes:
@@ -95,10 +84,8 @@ services:
       - "8080:80"
     networks:
       - appnet
-    environment:
-      PMA_HOST: mysql
-      PMA_USER: root
-      PMA_PASSWORD: rootsecret
+    env_file:
+      - ./config/.phpmyadmin_env
     depends_on:
       - mysql
 
