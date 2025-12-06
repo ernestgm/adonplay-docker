@@ -9,3 +9,4 @@
 /config/.mysql_env
 /config/.player_env
 /config/.phpmyadmin_env
+/.env
