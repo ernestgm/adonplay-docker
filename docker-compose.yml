@@ -45,11 +45,29 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      target: runner
       args:
-        - NODE_ENV=${BUILD_ENV}
+        - NEXT_PUBLIC_NAME_PAGE=${NEXT_PUBLIC_NAME_PAGE}
         - NEXT_PUBLIC_RAILS_ACTION_CABLE_URL=${NEXT_PUBLIC_RAILS_ACTION_CABLE_URL}
         - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
         - NEXT_PUBLIC_UPLOAD_BASE_URL=${NEXT_PUBLIC_UPLOAD_BASE_URL}
+    ports:
+      - "3000:3000"
+    networks:
+      - appnet
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - redis
+
+  frontend-dev:
+    profiles:
+      - dev
+    container_name: adonplay-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
     ports:
       - "3000:3000"
     env_file:
@@ -68,8 +86,6 @@ services:
     build:
       context: ./player
       dockerfile: Dockerfile
-      args:
-        - NODE_ENV=${BUILD_ENV}
     ports:
       - "3001:3001"
     env_file:
