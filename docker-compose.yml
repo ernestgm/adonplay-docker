@@ -1,11 +1,9 @@
 services:
-  mysql:
-    image: mysql:8
-    container_name: adonplay-mysql
+  mariadb:
+    image: mariadb:11.4  # Versión LTS (soporte a largo plazo)
+    container_name: adonplay-db
     restart: unless-stopped
-    # >>> SOLUCIÓN: Agregando la directiva privileged <<<
-    privileged: true
-    # >>> FIN SOLUCIÓN <<<
+    # Nota: Ya no necesitas 'privileged: true' para MariaDB en la mayoría de los casos.
     env_file:
       - ./config/.mysql_env
     ports:
@@ -13,13 +11,14 @@ services:
     networks:
       - appnet
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD" ]
+      # Usamos healthcheck.sh que viene incluido en la imagen oficial de MariaDB
+      test: [ "CMD-SHELL", "mariadb-admin ping -h localhost -u$$MARIADB_USER -p$$MARIADB_PASSWORD || exit 1" ]
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 20s # Dale tiempo a MySQL para inicializarse
+      start_period: 15s
 
   backend:
     build:
@@ -33,7 +32,7 @@ services:
     ports:
       - "9000:9000" # Map container port 3000 to local machine port 3000
     depends_on:
-      mysql:
+      mariadb:
         condition: service_healthy
     env_file:
       - ./config/.backend_env
@@ -175,7 +174,7 @@ services:
     env_file:
       - ./config/.phpmyadmin_env
     depends_on:
-      - mysql
+      - mariadb
 
   nginx:
     image: nginx:alpine
@@ -193,6 +192,7 @@ services:
       - frontend
       - player
       - redis
+      - phpmyadmin
     networks:
       - appnet
 
@@ -224,6 +224,6 @@ networks:
 
 volumes:
   vendor:
-  mysql_data:
+  mariadb_data:
   node_modules:
   bundle_cache:
