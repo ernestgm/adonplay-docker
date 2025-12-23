@@ -207,6 +207,9 @@ services:
     networks:
       - appnet
 
+  #docker compose run --rm certbot certonly --webroot --webroot-path=/var/www/certbot \
+  #-d frontend-adonplay.geniusdevelops.com -d api-adonplay.geniusdevelops.com -d player-adonplay.geniusdevelops.com -d ws-adonplay.geniusdevelops.com -d myadmin.geniusdevelops.com
+
   redis:
     image: "redis:alpine"
     container_name: redis
