@@ -10,3 +10,4 @@
 /config/.player_env
 /config/.phpmyadmin_env
 /.env
+/certbot
