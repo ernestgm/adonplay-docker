@@ -221,6 +221,8 @@ services:
 networks:
   appnet:
     driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400 # Valor seguro para la mayoría de redes
 
 volumes:
   vendor:
