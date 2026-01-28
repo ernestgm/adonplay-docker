@@ -4,3 +4,4 @@ NEXT_PUBLIC_RAILS_ACTION_CABLE_URL=http://ws-adonplay.local/cable
 NEXT_PUBLIC_API_URL=http://api-adonplay.local/api/v1
 NEXT_PUBLIC_UPLOAD_BASE_URL=http://api-adonplay.local/uploads/
 NEXT_PUBLIC_NAME_PAGE=AdOnPlay
+NEXT_PUBLIC_FONT_SERVER=https://apks.geniusdevelops.com/fonts/
